@@ -2,6 +2,8 @@
 
 Compare Cassandra schema and data folder content and fix the differences
 
+You can download the binary here: https://github.com/kluyg/cassandra-schema-fix/releases/
+
 Usage:
 
     ./cassandra-schema-fix <schema-file> <data folder>
@@ -35,7 +37,7 @@ It asks you would you like to remove it from your data folder and if you confirm
 
 #### 2. There is keyspace.columnfamily combination that has different cf_id from the schema.
 
-This can happen if you create columnfamilies automatically in code, which is an anti-pattern in Cassandra
+This can happen if you create columnfamilies automatically in your code, which is an anti-pattern in Cassandra
 and will lead to a big trouble. This happened to me and is why I wrote this cassandra-schema-fix in a
 hurry - I had ~500 columnfamilies and didn't want to deal with fixing it manually.
 
@@ -44,11 +46,11 @@ correct cf_id from the schema. If you confirm, it will remove snapshots in the w
 move the SSTables. It's pretty dumb and if the SSTable with the same name already exists in the correct
 folder, it will skip it and print a warning. I moved such files manually later.
 
-As the last step it will run `nodetool refresh keyspace_name columnfamily_name` so that Cassandra picks
+As the last step, it will run `nodetool refresh keyspace_name columnfamily_name` so that Cassandra picks
 up the moved SSTables.
 
 #### WARNING
 
-This is a result of couple of hours of work and helped me with the problems in my cluster. If you confirm,
+This is a result of a couple of hours of work and helped me with the problems in my cluster. If you confirm,
 it tries to resolve found issues by moving / removing your data, so use it at your own risk.
 
